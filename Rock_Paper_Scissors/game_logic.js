@@ -56,7 +56,7 @@ function ai_selected() {
 //determine the winner function
 
 function calculateWinner(user, ai) { 
-    if(user.beats == ai_selected) {
+    if(user.beats == ai.selected) {
         display_score.innerHTML = PLAYER_SCORE =+ 1
         updateUI(user, ai, 'You Win!')
         return

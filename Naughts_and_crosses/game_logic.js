@@ -11,6 +11,7 @@ let currentPlayer = X_TEXT
 let spaces = Array(9).fill(null)
 
 const startGame = () => {
+    count_plays = 0
     boxes.forEach(box => box.addEventListener('click', boxClicked))
 }
 
