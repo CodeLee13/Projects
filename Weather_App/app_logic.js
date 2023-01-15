@@ -7,10 +7,11 @@ const weatherForecastEl = document.getElementById('weather-forecast');
 const currentTempEl = document.getElementById('current-temp');
 
 
+
 const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
 const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
-const API_KEY ='14951c93f3d11e8ac8bed96dd90e8bc7';
+const API_KEY ='994b77f5f32487e3836301c48dba9b97';
 
 setInterval(() => {
     const time = new Date();
@@ -28,20 +29,21 @@ setInterval(() => {
 
 }, 1000);
 
-getWeatherData()
+
 function getWeatherData () {
     navigator.geolocation.getCurrentPosition((success) => {
         
         let {latitude, longitude } = success.coords;
 
-        fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=metric`).then(res => res.json()).then(data => {
-
+        fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&exclude=hourly,minutely&units=metric&appid=${API_KEY}`).then(res => res.json()).then(data => {
+    
         console.log(data)
-        showWeatherData(data);
+    
         })
 
     })
 }
+getWeatherData()
 
 function showWeatherData (data){
     let {humidity, pressure, sunrise, sunset, wind_speed} = data.current;
@@ -62,7 +64,6 @@ function showWeatherData (data){
         <div>Wind Speed</div>
         <div>${wind_speed}</div>
     </div>
-
     <div class="weather-item">
         <div>Sunrise</div>
         <div>${window.moment(sunrise * 1000).format('HH:mm a')}</div>
@@ -79,7 +80,7 @@ function showWeatherData (data){
     data.daily.forEach((day, idx) => {
         if(idx == 0){
             currentTempEl.innerHTML = `
-            <img src="http://openweathermap.org/img/wn/${temperature.weather[0].icon}@4x.png" alt="weather icon" class="w-icon">
+            <img src="http://openweathermap.org/img/wn//${day.weather[0].icon}@4x.png" alt="weather icon" class="w-icon">
             <div class="other">
                 <div class="day">${window.moment(day.dt*1000).format('dddd')}</div>
                 <div class="temp">Night - ${day.temp.night}&#176;C</div>
@@ -91,7 +92,7 @@ function showWeatherData (data){
             otherDayForcast += `
             <div class="weather-forecast-item">
                 <div class="day">${window.moment(day.dt*1000).format('ddd')}</div>
-                <img src=http://openweathermap.org/img/wn/${temperature.weather[0].icon}@2x.png" alt="weather icon" class="w-icon">
+                <img src="http://openweathermap.org/img/wn/${day.weather[0].icon}@2x.png" alt="weather icon" class="w-icon">
                 <div class="temp">Night - ${day.temp.night}&#176;C</div>
                 <div class="temp">Day - ${day.temp.day}&#176;C</div>
             </div>
